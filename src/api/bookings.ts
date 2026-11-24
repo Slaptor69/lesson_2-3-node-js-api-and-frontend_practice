@@ -25,7 +25,7 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 export async function getBookings(): Promise<Booking[]> {
   // Шаг 2 · CLIENT-LIST: замените заглушку вызовом request для GET списка.
   // START CLIENT-LIST
-  throw new Error('Шаг 2: подключите загрузку списка в src/api/bookings.ts.')
+  return request<Booking[]>('/api/bookings')
   // END CLIENT-LIST
 }
 

@@ -12,7 +12,9 @@ export async function routeBookings(
     if (req.method === 'GET') {
       // Шаг 1 · API-GET: замените заглушку получением списка и ответом 200.
       // START API-GET
-      throw new HttpError(501, 'STEP_1', 'Шаг 1: подключите GET /api/bookings.')
+      const bookings = await store.list()
+      sendJson(res, 200, { data: bookings })
+      return
       // END API-GET
     }
     if (req.method === 'POST') {

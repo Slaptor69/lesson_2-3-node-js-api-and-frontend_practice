@@ -2,7 +2,11 @@ import './style.css'
 import './components/booking-card.ts'
 import type { BookingCard } from './components/booking-card.ts'
 import type { Booking } from './models/booking.ts'
-import { getBookings, createBooking, confirmBooking } from './api/bookings.ts'
+import * as apiBookings from './api/bookings.ts'
+import * as demoBookings from './api/demo-bookings.ts'
+
+const pagesDemo = import.meta.env.MODE === 'pages'
+const { getBookings, createBooking, confirmBooking } = pagesDemo ? demoBookings : apiBookings
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <main>
@@ -19,12 +23,14 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <div class="toolbar"><p class="summary">Участников: <strong id="total">0</strong>
       <span>Заявок: <strong id="count">0</strong></span></p>
       <button id="reload" type="button" class="secondary">Обновить список</button></div>
-    <p id="list-note" class="muted">После загрузки здесь появятся данные сервера.</p>
+    <p id="list-note" class="muted">${pagesDemo ? '' : 'После загрузки здесь появятся данные сервера.'}</p>
     <div id="lists" class="columns">
       <section aria-labelledby="all-title"><h2 id="all-title">Все заявки</h2><div id="all" class="cards"></div></section>
       <section aria-labelledby="confirmed-title"><h2 id="confirmed-title">Подтверждённые</h2><div id="confirmed" class="cards"></div></section>
     </div>
-    <footer>Учебные данные вымышлены. Обновление списка получает актуальный ответ сервера.</footer>
+    <footer>${pagesDemo
+      ? 'Демо GitHub Pages. Заявки сохраняются в этом браузере.'
+      : 'Учебные данные вымышлены. Обновление списка получает актуальный ответ сервера.'}</footer>
   </main>`
 
 const all = document.querySelector<HTMLElement>('#all')!
